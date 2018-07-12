@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+ - "8"
+install:
+- npm install
+branches:
+  only:
+  - master
+deploy:
+  provider: heroku
+  app: cidc-line-bot
+  api_key:
+    secure: c18e7cf1-599e-4813-a57e-df61b07c2901
