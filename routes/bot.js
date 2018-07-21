@@ -9,9 +9,19 @@ const config = {
 
 const client = new line.Client(config);
 
-router.post('/webhook', function(req, res, next) {
-  let event = req.body.events.pop()
-  let result = 'fine'
+router.post('/webhook', middlewares, function(req, res, next) {
+  Promise.all(
+    req.body.events.map(callback)
+  ).then((result) => {
+    res.json(result)
+  }).catch((err) => {
+   console.error(err);
+   res.status(500).end();
+ });
+});
+
+function callback(event) {
+  let result = {}
   if (event.type == 'message' && event.message.type == 'text') {
     const echo = {
       type: 'text',
@@ -19,7 +29,12 @@ router.post('/webhook', function(req, res, next) {
     };
     result = client.replyMessage(event.replyToken, echo);
   }
-  res.send(result);
-});
+  return result
+}
+
+function middlewares(req, res, next) {
+  console.log(req.body)
+  next();
+}
 
 module.exports = router;
