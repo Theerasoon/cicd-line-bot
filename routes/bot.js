@@ -21,18 +21,19 @@ router.get('/', function(req, res, next) {
 })
 
 
-router.post('/webhook', middlewares, function(req, res, next) {
-  Promise.all(
-    req.body.events.map(callback)
-  ).then((result) => {
+router.post('/webhook', middlewares, async function(req, res, next) {
+  try {
+    const event = req.body.events[0]
+    let result = await callback(event)
     res.json(result)
-  }).catch((err) => {
-   console.error(err)
-   res.status(500).end()
- })
+  } catch (err) {
+    res.status(500).end()
+    console.log(err.message)
+    console.log(err)
+  }
 })
 
-function callback(event) {
+async function callback(event) {
   let result = {}
   if (event.type == 'message' && event.message.type == 'text') {
     const echo = {
@@ -44,21 +45,19 @@ function callback(event) {
   return result
 }
 
-function middlewares(req, res, next) {
-  webhookLog(req.body)
+async function middlewares(req, res, next) {
+  try {
+    webhookLog(req.body)
+  } catch (err) {
+    console.log(err.message)
+    console.log(err)
+  }
   next();
 }
 
-function webhookLog(event) {
-  const connection = {
-    db: 'Bot',
-    collection: 'Webhook'
-  }
-  try {
-    database.save(event, connection)
-  } catch (err) {
-    console.err(err)
-  }
+async function webhookLog(event) {
+  const connection = { db: 'Bot', collection: 'Webhook' }
+  database.save(event, connection)
 }
 
 module.exports = router;
