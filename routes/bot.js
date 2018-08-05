@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 var line = require('@line/bot-sdk');
 var database = require('../utilities/Database.js');
+var middlewares = {
+  webhook: require('../middlewares/webhooklog.js')
+}
 
 const config = {
   channelAccessToken: process.env.LINE_ACCESS_TOKEN,
@@ -21,7 +24,7 @@ router.get('/', function(req, res, next) {
 })
 
 
-router.post('/webhook', middlewares, async function(req, res, next) {
+router.post('/webhook', routeMiddlewares, async function(req, res, next) {
   try {
     const event = req.body.events[0]
     let result = await callback(event)
@@ -45,19 +48,14 @@ async function callback(event) {
   return result
 }
 
-async function middlewares(req, res, next) {
+function routeMiddlewares(req, res, next) {
   try {
-    webhookLog(req.body)
+    middlewares.webhook.log(req)
   } catch (err) {
     console.log(err.message)
     console.log(err)
   }
   next();
-}
-
-async function webhookLog(event) {
-  const connection = { db: 'Bot', collection: 'Webhook' }
-  database.save(event, connection)
 }
 
 module.exports = router;
