@@ -6,6 +6,6 @@ var middlewares = {
   webhook: require('../middlewares/webhooklog.js')
 }
 
-router.post('/webhook',middlewares.webhook.log, controllers.facebook.webhook )
+router.post('/webhook',middlewares.webhook.log, controllers.line.webhook )
 
 module.exports = router;
