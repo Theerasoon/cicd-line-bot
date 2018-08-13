@@ -24,6 +24,7 @@ const self = {
       return result
     }
     const lineResponse = new LineResponse(config)
+
     const original = 'https://instagram.fbkk1-1.fna.fbcdn.net/vp/a2a59708a2ef521c28a9137d345d882d/5BFCF4BA/t51.2885-15/sh0.08/e35/s640x640/32624069_209897666456908_4661064578824667136_n.jpg'
     const preivew = 'https://instagram.fbkk1-1.fna.fbcdn.net/vp/4811f0a2184418c4bfcb54fc755a5536/5B73E26F/t51.2885-15/e15/c0.90.720.720/s320x320/32041291_234964433776547_5995483318232023040_n.jpg'
 
@@ -35,6 +36,18 @@ const self = {
         break
         case 'image' :
           result = lineResponse.addImageMessage(original, preivew)
+        break
+        case 'confirm' :
+          const altText = 'Please Confirm you payment?'
+          const template = {
+            type: 'confirm',
+            text: 'You payment amount is $300. Do you want to pay it now?',
+            actions: [
+              { label: 'Sure', type: 'message', text: 'I will pay it now' },
+              { label: 'Nope', type: 'message', text: 'No, not this time' },
+            ]
+          }
+          result = lineResponse.addTemplateMessage(altText, template)
         break
         case 'multi' :
           result = lineResponse.addTextMessage('This is a multi message from TulTul Bot!')

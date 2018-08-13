@@ -21,6 +21,14 @@ class LineResponse {
     })
   }
 
+  addTemplateMessage (altText, template) {
+    this.responseData.push({
+      type: 'template',
+      altText,
+      template
+    })
+  }
+
   replyMessage (token) {
     return this.client.replyMessage(token, this.responseData).catch(err => console.error(err))
   }
