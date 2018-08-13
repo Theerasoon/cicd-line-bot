@@ -1,30 +1,33 @@
 const line = require('@line/bot-sdk')
-const config = {
-  channelAccessToken: process.env.LINE_ACCESS_TOKEN,
-  channelSecret: process.env.LINE_SECRET,
-}
-const client = new line.Client(config)
-const self = {
-  responseData: [],
-  addTextMessage: function (message) {
-    self.responseData.push({
+
+class LineResponse {
+  constructor (config) {
+    this.responseData = []
+    this.client = new line.Client(config)
+  }
+
+  addTextMessage (text) {
+    this.responseData.push({
       type: 'text',
-      text: message
+      text
     })
-  },
-  addImageMessage: function (originalContentUrl, previewImageUrl) {
-    self.responseData.push({
+  }
+
+  addImageMessage (originalContentUrl, previewImageUrl) {
+    this.responseData.push({
       type: 'image',
       originalContentUrl,
       previewImageUrl
     })
-  },
-  replyMessage: function (token) {
-    return client.replyMessage(token, self.responseData).catch(err => console.error(err))
-  },
-  log: function () {
-    console.log(self.responseData)
+  }
+
+  replyMessage (token) {
+    return this.client.replyMessage(token, this.responseData).catch(err => console.error(err))
+  }
+
+  log () {
+    console.log(this.responseData)
   }
 }
 
-module.exports = self
+module.exports = LineResponse
