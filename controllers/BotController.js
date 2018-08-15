@@ -59,7 +59,7 @@ const self = {
             text: 'Select your preferred way to pay online',
             actions: [
               { label: 'Palpay', type: 'message', text: 'I want to pay by Paypal' },
-              { label: 'Credit Card', type: 'uri', text: 'I want to pay by credit card' },
+              { label: 'Credit Card', type: 'message', text: 'I want to pay by credit card' },
               { label: 'Learn more', type: 'uri', uri: 'https://en.wikipedia.org/wiki/E-commerce_payment_system' },
             ]
           }
@@ -70,6 +70,7 @@ const self = {
           template = {
             type: 'buttons',
             thumbnailImageUrl: 'https://instagram.fbkk1-1.fna.fbcdn.net/vp/2d569d7624cc1df485c6486b1373f967/5BF425D6/t51.2885-15/sh0.08/e35/s640x640/34324694_225349391386450_5714965775630991360_n.jpg',
+            imageAspectRatio: 'square',
             title: 'Do you know who am I?',
             text: 'Select your preferred way to pay online',
             actions: [
