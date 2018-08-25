@@ -84,14 +84,6 @@ const self = {
         break
         case 'image map' :
           altText = 'Select you favorite number'
-<<<<<<< HEAD
-          let size =  { width: 640, height: 640 }
-          let action = [
-            { area: { x: 0, y: 0, width: 320, height: 320 }, type: 'uri', linkUri: 'https://store.line.me/family/manga/en' },
-            { area: { x: 320, y: 0, width: 320, height: 320 }, type: 'uri', linkUri: 'https://store.line.me/family/music/en' },
-            { area: { x: 0, y: 320, width: 320, height: 320 }, type: 'uri', linkUri: 'https://store.line.me/family/play/en' },
-            { area: { x: 320, y: 320, width: 320, height: 320 }, type: 'message', text: 'URANAI!' },
-=======
           let imageMapUrl =`${base_url}/meow`
           let size =  { width: 1080, height: 1080 }
           let action = [
@@ -99,7 +91,6 @@ const self = {
             { area: { x: 540, y: 0, width: 540, height: 540 }, type: 'uri', linkUri: 'https://store.line.me/family/music/en' },
             { area: { x: 0, y: 540, width: 540, height: 540 }, type: 'uri', linkUri: 'https://store.line.me/family/play/en' },
             { area: { x: 540, y: 540, width: 540, height: 540 }, type: 'message', text: 'URANAI!' },
->>>>>>> release/0.0.14
           ]
           lineResponse.addImageMapMessage(altText, imageMapUrl, size, action)
         break
