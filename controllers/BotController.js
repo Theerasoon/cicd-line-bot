@@ -34,10 +34,10 @@ const self = {
       case 'text':
       switch (event.message.text) {
         case 'text' :
-          result = lineResponse.addTextMessage('This is a text replay from TulTul Bot!')
+          lineResponse.addTextMessage('This is a text replay from TulTul Bot!')
         break
         case 'image' :
-          result = lineResponse.addImageMessage(original, preivew)
+          lineResponse.addImageMessage(original, preivew)
         break
         case 'confirm' :
           altText = 'Please Confirm you payment?'
@@ -49,7 +49,7 @@ const self = {
               { label: 'Nope', type: 'message', text: 'No, not this time' },
             ]
           }
-          result = lineResponse.addTemplateMessage(altText, template)
+          lineResponse.addTemplateMessage(altText, template)
         break
         case 'button 1' :
           altText = 'Please choose payment methods?'
@@ -63,7 +63,7 @@ const self = {
               { label: 'Learn more', type: 'uri', uri: 'https://en.wikipedia.org/wiki/E-commerce_payment_system' },
             ]
           }
-          result = lineResponse.addTemplateMessage(altText, template)
+          lineResponse.addTemplateMessage(altText, template)
         break
         case 'button 2' :
           altText = 'Who am I?'
@@ -79,14 +79,25 @@ const self = {
               { label: 'Korn', type: 'message', text: 'She is Korn BNK48' },
             ]
           }
-          result = lineResponse.addTemplateMessage(altText, template)
+          lineResponse.addTemplateMessage(altText, template)
+        break
+        case 'image map' :
+          altText = 'Select you favorite number'
+          let size =  { width: 1040, height: 1040 }
+          let action = [
+            { area: { x: 0, y: 0, width: 520, height: 520 }, type: 'uri', linkUri: 'https://store.line.me/family/manga/en' },
+            { area: { x: 520, y: 0, width: 520, height: 520 }, type: 'uri', linkUri: 'https://store.line.me/family/music/en' },
+            { area: { x: 0, y: 520, width: 520, height: 520 }, type: 'uri', linkUri: 'https://store.line.me/family/play/en' },
+            { area: { x: 520, y: 520, width: 520, height: 520 }, type: 'message', text: 'URANAI!' },
+          ]
+          lineResponse.addImageMapMessage(altText, original, size, action)
         break
         case 'multi' :
-          result = lineResponse.addTextMessage('This is a multi message from TulTul Bot!')
-          result = lineResponse.addImageMessage(original, preivew)
+          lineResponse.addTextMessage('This is a multi message from TulTul Bot!')
+          lineResponse.addImageMessage(original, preivew)
         break
         default :
-          result = lineResponse.addTextMessage(event.message.text)
+          lineResponse.addTextMessage(event.message.text)
         break
       }
       break

@@ -29,6 +29,16 @@ class LineResponse {
     })
   }
 
+  addImageMapMessage (altText, baseUrl, baseSize, actions) {
+    this.responseData.push( {
+      type: 'imagemap',
+      altText,
+      baseUrl,
+      baseSize,
+      actions
+    })
+  }
+
   replyMessage (token) {
     return this.client.replyMessage(token, this.responseData).catch(err => console.error(err))
   }
