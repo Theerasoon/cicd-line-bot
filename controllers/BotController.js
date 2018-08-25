@@ -24,6 +24,7 @@ const self = {
       return result
     }
     const lineResponse = new LineResponse(config)
+    const base_url = 'https://cidc-line-bot.herokuapp.com'
 
     const original = 'https://instagram.fbkk1-1.fna.fbcdn.net/vp/a2a59708a2ef521c28a9137d345d882d/5BFCF4BA/t51.2885-15/sh0.08/e35/s640x640/32624069_209897666456908_4661064578824667136_n.jpg'
     const preivew = 'https://instagram.fbkk1-1.fna.fbcdn.net/vp/4811f0a2184418c4bfcb54fc755a5536/5B73E26F/t51.2885-15/e15/c0.90.720.720/s320x320/32041291_234964433776547_5995483318232023040_n.jpg'
@@ -83,14 +84,15 @@ const self = {
         break
         case 'image map' :
           altText = 'Select you favorite number'
-          let size =  { width: 1040, height: 1040 }
+          let imageMapUrl =`${base_url}/meow`
+          let size =  { width: 1080, height: 1080 }
           let action = [
-            { area: { x: 0, y: 0, width: 520, height: 520 }, type: 'uri', linkUri: 'https://store.line.me/family/manga/en' },
-            { area: { x: 520, y: 0, width: 520, height: 520 }, type: 'uri', linkUri: 'https://store.line.me/family/music/en' },
-            { area: { x: 0, y: 520, width: 520, height: 520 }, type: 'uri', linkUri: 'https://store.line.me/family/play/en' },
-            { area: { x: 520, y: 520, width: 520, height: 520 }, type: 'message', text: 'URANAI!' },
+            { area: { x: 0, y: 0, width: 540, height: 540 }, type: 'uri', linkUri: 'https://store.line.me/family/manga/en' },
+            { area: { x: 540, y: 0, width: 540, height: 540 }, type: 'uri', linkUri: 'https://store.line.me/family/music/en' },
+            { area: { x: 0, y: 540, width: 540, height: 540 }, type: 'uri', linkUri: 'https://store.line.me/family/play/en' },
+            { area: { x: 540, y: 540, width: 540, height: 540 }, type: 'message', text: 'URANAI!' },
           ]
-          lineResponse.addImageMapMessage(altText, original, size, action)
+          lineResponse.addImageMapMessage(altText, imageMapUrl, size, action)
         break
         case 'multi' :
           lineResponse.addTextMessage('This is a multi message from TulTul Bot!')
