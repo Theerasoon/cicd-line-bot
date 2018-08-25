@@ -83,12 +83,12 @@ const self = {
         break
         case 'image map' :
           altText = 'Select you favorite number'
-          let size =  { width: 1040, height: 1040 }
+          let size =  { width: 640, height: 640 }
           let action = [
-            { area: { x: 0, y: 0, width: 520, height: 520 }, type: 'uri', linkUri: 'https://store.line.me/family/manga/en' },
-            { area: { x: 520, y: 0, width: 520, height: 520 }, type: 'uri', linkUri: 'https://store.line.me/family/music/en' },
-            { area: { x: 0, y: 520, width: 520, height: 520 }, type: 'uri', linkUri: 'https://store.line.me/family/play/en' },
-            { area: { x: 520, y: 520, width: 520, height: 520 }, type: 'message', text: 'URANAI!' },
+            { area: { x: 0, y: 0, width: 320, height: 320 }, type: 'uri', linkUri: 'https://store.line.me/family/manga/en' },
+            { area: { x: 320, y: 0, width: 320, height: 320 }, type: 'uri', linkUri: 'https://store.line.me/family/music/en' },
+            { area: { x: 0, y: 320, width: 320, height: 320 }, type: 'uri', linkUri: 'https://store.line.me/family/play/en' },
+            { area: { x: 320, y: 320, width: 320, height: 320 }, type: 'message', text: 'URANAI!' },
           ]
           lineResponse.addImageMapMessage(altText, original, size, action)
         break
