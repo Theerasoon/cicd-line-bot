@@ -84,7 +84,7 @@ const self = {
         break
         case 'image map' :
           altText = 'Select you favorite number'
-          let imageMapUrl =`${base_url}/img/meow/1080`
+          let imageMapUrl =`${base_url}/img/meow`
           let size =  { width: 1080, height: 1080 }
           let action = [
             { area: { x: 0, y: 0, width: 540, height: 540 }, type: 'uri', linkUri: 'https://store.line.me/family/manga/en' },
