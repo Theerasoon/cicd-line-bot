@@ -98,7 +98,7 @@ const self = {
               let tileNum = (yTile * (i - 1)) + j
               const currentX = Math.round(stepX * (j - 1))
               const currentY = Math.round(stepY * (i - 1))
-              action.psuh({
+              action.push({
                 area: { x: currentX, y: currentY, width: stepX, height: stepY },
                 type: 'message', text: tileNum.toString()
               })
