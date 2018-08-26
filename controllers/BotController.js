@@ -84,14 +84,26 @@ const self = {
         break
         case 'image map' :
           altText = 'Select you favorite number'
-          let imageMapUrl =`${base_url}/img/meow`
+          let imageMapUrl =`${base_url}/img/meow/_`
           let size =  { width: 1080, height: 1080 }
-          let action = [
-            { area: { x: 0, y: 0, width: 540, height: 540 }, type: 'uri', linkUri: 'https://store.line.me/family/manga/en' },
-            { area: { x: 540, y: 0, width: 540, height: 540 }, type: 'uri', linkUri: 'https://store.line.me/family/music/en' },
-            { area: { x: 0, y: 540, width: 540, height: 540 }, type: 'uri', linkUri: 'https://store.line.me/family/play/en' },
-            { area: { x: 540, y: 540, width: 540, height: 540 }, type: 'message', text: 'URANAI!' },
-          ]
+          let action = []
+
+          const xTile = 7
+          const yTile = 7
+          const stepX = Math.round(size.width / xTile)
+          const stepY = Math.round(size.height / yTile)
+
+          for ( let i = 1 ; i <= yTile ; i++ ) {
+            for ( let j = 1 ; j <= xTile ; j++ ) {
+              let tileNum = (yTile * (i - 1)) + j
+              const currentX = Math.round(stepX * (j - 1))
+              const currentY = Math.round(stepY * (i - 1))
+              action.psuh({
+                area: { x: currentX, y: currentY, width: stepX, height: stepY },
+                type: 'message', text: tileNum.toString()
+              })
+            }
+          }
           lineResponse.addImageMapMessage(altText, imageMapUrl, size, action)
         break
         case 'multi' :
