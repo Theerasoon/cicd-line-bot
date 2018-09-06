@@ -7,5 +7,6 @@ var middlewares = {
 }
 
 router.post('/webhook',middlewares.webhook.log, controllers.line.webhook )
+// router.post('/webhook', controllers.line.webhook )
 
 module.exports = router;
