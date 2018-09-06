@@ -55,8 +55,8 @@ const self = {
     }
 
     let processDialog = new dialogFactory[dialog](user, message, session)
-    let result = processDialog.action()
-    return lineResponse.replyMessage(event.replyToken)
+    let result = processDialog.action()['lineResponse']
+    return result.replyMessage(event.replyToken)
   }
 }
 
