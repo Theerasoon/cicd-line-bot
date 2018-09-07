@@ -1,4 +1,5 @@
-var LineResponse = require('../../utilities/LineResponse.js')
+const LineResponse = require('../../utilities/LineResponse.js')
+const moment = require('moment')
 
 class MasterDialog {
   /**
@@ -22,6 +23,7 @@ class MasterDialog {
    */
   config() {
     let config = {
+      version: '0.0.1',
       useTextProcessing: true
     }
     this.config = config
@@ -84,6 +86,27 @@ class MasterDialog {
       channelSecret: process.env.LINE_SECRET,
     }
     return new LineResponse(config) 
+  }
+
+  parseInputMessage() {
+    return {
+      timeStamp: moment().format('Y-MM-DD HH:mm:ss.SSS'),
+      source: this.user,
+      destination: { type: 'bot', version: this.config.version },
+      message: [{
+        type: this.message['type'],
+        message: this.message['text']
+      }]
+    }
+  }
+
+  parseResponseMessage(response) {
+    return {
+      timeStamp: moment().format('Y-MM-DD HH:mm:ss.SSS'),
+      source: { type: 'bot', version: this.config.version },
+      destination: this.user,
+      message: response.responseData
+    }
   }
 }
 
