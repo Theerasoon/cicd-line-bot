@@ -63,3 +63,7 @@ typings/
 .travis.yml
 
 .vscode
+
+# application
+public/download/*
+!public/download/README.md

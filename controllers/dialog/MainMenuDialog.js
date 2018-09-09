@@ -102,6 +102,13 @@ class MainMenuDialog extends MasterDialog {
       lineResponse.addImageMapMessage(altText, imageMapUrl, size, action)
       return { lineResponse }
     })
+
+    this.onImage(function (user, message, session, lineResponse, image) {
+      const original = `https://cidc-line-bot.herokuapp.com/${image}`
+      const preivew = `https://cidc-line-bot.herokuapp.com/img/preview?filename=${image}`
+      lineResponse.addImageMessage(original, preivew)
+      return { lineResponse }
+    })
   }
 }
 

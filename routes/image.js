@@ -58,5 +58,23 @@ router.get('/:name/:tile/:size', async function(req, res, next) {
   }
 });
 
+router.get('/preview', async function (req, res, next){
+  try {
+    const imageName = req.query.filename
+    const imageFile = `./public/${imageName}`
+    const image = await jimp.read(imageFile)
+    if (image.bitmap.width < image.bitmap.height) {
+      image.resize(jimp.AUTO, 240)
+    } else {
+      image.resize(240, jimp.AUTO)
+    }
+    const imageBuffer = await image.getBufferAsync(jimp.MIME_PNG)
+    res.contentType(jimp.MIME_PNG);
+    res.send(imageBuffer)
+  } catch (err) {
+    console.error(err.message)
+    console.error(err)
+  }
+})
 
 module.exports = router;

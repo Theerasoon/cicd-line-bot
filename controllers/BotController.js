@@ -1,8 +1,9 @@
-var LineResponse = require('../utilities/LineResponse.js');
-var normalizedPath = require("path").join(__dirname, "/dialog");
+const database = require('../utilities/Database.js')
+var normalizedPath = require("path").join(__dirname, "/dialog")
 var dialogFactory = {}
-require("fs").readdirSync(normalizedPath).forEach(function(file) {
-  dialogFactory[file.replace('.js','')] = require("./dialog/" + file);
+
+require("fs").readdirSync(normalizedPath).forEach(function (file) {
+  dialogFactory[file.replace('.js', '')] = require("./dialog/" + file)
 });
 
 const config = {
@@ -29,33 +30,29 @@ const self = {
     let dialog = 'MainMenuDialog'
 
     switch (event.source.type) {
-      case 'user' : sessionId = event.source.userId
-      case 'group' : sessionId = event.source.groupId
+      case 'user': sessionId = event.source.userId
+      case 'group': sessionId = event.source.groupId
     }
 
     const session = {
-      currentDialog : 'MainMenuDialog',
+      currentDialog: 'MainMenuDialog',
       data: {}
     }
-    // "source": {
-    //   "groupId": "Cdb41f281fac1deca612038f97c405223",
-    //   "userId": "U851c7ae72275843a9c7a236a7fe01529",
-    //   "type": "group"
-    // },
     const user = event.source
-    // "message": {
-    //   "type": "text",
-    //   "id": "7052487642005",
-    //   "text": "image map"
-    // }
     const message = event.message
 
-    if ( session.currentDialog !== undefined ) {
+    if (session.currentDialog !== undefined) {
       dialog = session.currentDialog
     }
 
-    let processDialog = new dialogFactory[dialog](user, message, session)
-    let result = processDialog.action()['lineResponse']
+    const connection = { db: 'Bot', collection: 'Message' }
+    const processDialog = new dialogFactory[dialog](user, message, session)
+    const inputLog = processDialog.parseInputMessage()
+    database.save(inputLog, connection)
+    const result = processDialog.action()
+    const responseLog = processDialog.parseResponseMessage(result['lineResponse'])
+    database.save(responseLog, connection)
+    // return { inputLog, responseLog }
     return result.replyMessage(event.replyToken)
   }
 }
