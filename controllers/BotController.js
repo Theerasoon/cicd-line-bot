@@ -53,7 +53,7 @@ const self = {
     const responseLog = processDialog.parseResponseMessage(result['lineResponse'])
     database.save(responseLog, connection)
     // return { inputLog, responseLog }
-    return result.replyMessage(event.replyToken)
+    return result['lineResponse'].replyMessage(event.replyToken)
   }
 }
 
