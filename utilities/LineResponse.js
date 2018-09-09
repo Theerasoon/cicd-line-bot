@@ -1,9 +1,15 @@
 const line = require('@line/bot-sdk')
+const fs = require('fs');
+const path = require('path');
 
 class LineResponse {
   constructor (config) {
     this.responseData = []
     this.client = new line.Client(config)
+  }
+
+  getResponseDate() {
+    return this.responseData
   }
 
   addTextMessage (text) {
@@ -46,6 +52,17 @@ class LineResponse {
   log () {
     console.log(this.responseData)
   }
+
+  async downloadContent (messageId, dowloadPath) {
+    try {
+      const stream = await this.client.getMessageContent(messageId)
+      const writable = fs.createWriteStream(dowloadPath)
+      stream.pipe(writable)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
 }
 
 module.exports = LineResponse

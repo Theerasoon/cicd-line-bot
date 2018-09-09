@@ -13,7 +13,8 @@ class MasterDialog {
     this.session = session
     this.eventResponses = {
       onText: {},
-      onTextDefault: {}
+      onTextDefault: {},
+      onImage: {}
     }
   }
 
@@ -57,6 +58,15 @@ class MasterDialog {
   }
 
   /**
+   * A register method uses for handle image message
+   * @param {Function} action - a callback function
+   */
+  onImage(action) {
+    const callbackFunction = { action }
+    this.eventResponses.onImage = callbackFunction
+  }
+
+  /**
    * A action function that select the function to call
    * @return {LineResponse} - a retrun object
    */
@@ -73,7 +83,15 @@ class MasterDialog {
         } else {
           return this.eventResponses.onText[trigger]['action'](this.user, this.message, this.session, this.lineResponseFactory())
         }
-      }
+      break
+      case 'image':
+        const downloadBasePath = require('app-root-path').resolve('public')
+        const filename = `download/${this.message.id}.jpg`
+        const downloadPath = `${downloadBasePath}/${filename}`
+        const resultFile = this.lineResponseFactory().downloadContent(this.message.id, downloadPath)
+        return this.eventResponses.onImage['action'](this.user, this.message, this.session, this.lineResponseFactory(), filename)
+      break
+    }
   }
 
   /**

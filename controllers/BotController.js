@@ -49,8 +49,8 @@ const self = {
     const processDialog = new dialogFactory[dialog](user, message, session)
     const inputLog = processDialog.parseInputMessage()
     database.save(inputLog, connection)
-    const result = processDialog.action()['lineResponse']
-    const responseLog = processDialog.parseResponseMessage(result)
+    const result = processDialog.action()
+    const responseLog = processDialog.parseResponseMessage(result['lineResponse'])
     database.save(responseLog, connection)
     // return { inputLog, responseLog }
     return result.replyMessage(event.replyToken)
