@@ -19,23 +19,27 @@ class MainMenuDialog extends MasterDialog {
   create() {
 
     this.onTextDefault(function(user, message, session, lineResponse) {
+      const nextDialog = null
       lineResponse.addTextMessage(message.text)
-      return { lineResponse }
+      return { lineResponse, nextDialog }
     })
 
     this.onText('text', function (user, message, session, lineResponse) {
+      const nextDialog = null
       lineResponse.addTextMessage('This is a text response!')
-      return { lineResponse }
+      return { lineResponse, nextDialog }
     })
 
     this.onText('image', function (user, message, session, lineResponse) {
+      const nextDialog = null
       const original = 'https://instagram.fbkk1-1.fna.fbcdn.net/vp/a2a59708a2ef521c28a9137d345d882d/5BFCF4BA/t51.2885-15/sh0.08/e35/s640x640/32624069_209897666456908_4661064578824667136_n.jpg'
       const preivew = 'https://instagram.fbkk1-1.fna.fbcdn.net/vp/4811f0a2184418c4bfcb54fc755a5536/5B73E26F/t51.2885-15/e15/c0.90.720.720/s320x320/32041291_234964433776547_5995483318232023040_n.jpg'
       lineResponse.addImageMessage(original, preivew)
-      return { lineResponse }
+      return { lineResponse, nextDialog }
     })
 
     this.onText('button 1', function (user, message, session, lineResponse) {
+      const nextDialog = null
       const altText = 'This is a button 1 response!'
       const template = {
         type: 'buttons',
@@ -48,10 +52,11 @@ class MainMenuDialog extends MasterDialog {
         ]
       }
       lineResponse.addTemplateMessage(altText, template)
-      return { lineResponse }
+      return { lineResponse, nextDialog }
     })
 
     this.onText('button 2', function (user, message, session, lineResponse) {
+      const nextDialog = null
       const altText = 'This is a button 2 response!'
       const template = {
         type: 'buttons',
@@ -66,17 +71,20 @@ class MainMenuDialog extends MasterDialog {
         ]
       }
       lineResponse.addTemplateMessage(altText, template)
-      return { lineResponse }
+      return { lineResponse, nextDialog }
+
     })
 
     this.onText('multi message', function (user, message, session, lineResponse) {
+      const nextDialog = null
       lineResponse.addTextMessage('Do you know?')
       lineResponse.addTextMessage('This is a multi messages response!')
       lineResponse.addTextMessage('I can send up to 4 message')
-      return { lineResponse }
+      return { lineResponse, nextDialog }
     })
 
     this.onText('image map', function (user, message, session, lineResponse) {
+      const nextDialog = null
       const altText = 'Select you favorite number'
       const base_url = 'https://cidc-line-bot.herokuapp.com'
       const imageMapUrl =`${base_url}/img/meow/_`
@@ -100,14 +108,15 @@ class MainMenuDialog extends MasterDialog {
         }
       }
       lineResponse.addImageMapMessage(altText, imageMapUrl, size, action)
-      return { lineResponse }
+      return { lineResponse, nextDialog }
     })
 
     this.onImage(function (user, message, session, lineResponse, image) {
+      const nextDialog = null
       const original = `https://cidc-line-bot.herokuapp.com/${image}`
       const preivew = `https://cidc-line-bot.herokuapp.com/img/preview?filename=${image}`
       lineResponse.addImageMessage(original, preivew)
-      return { lineResponse }
+      return { lineResponse, nextDialog }
     })
   }
 }
