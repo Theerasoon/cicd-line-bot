@@ -1,5 +1,7 @@
 const LineResponse = require('../../utilities/LineResponse.js')
+const CloudStore = require('../../utilities/CloudStore.js');
 const moment = require('moment')
+const fs = require('fs');
 
 class MasterDialog {
   /**
@@ -86,9 +88,16 @@ class MasterDialog {
       break
       case 'image':
         const downloadBasePath = require('app-root-path').resolve('public')
-        const filename = `download/${this.message.id}.jpg`
-        const downloadPath = `${downloadBasePath}/${filename}`
-        const resultFile = this.lineResponseFactory().downloadContent(this.message.id, downloadPath)
+        const filename = `${this.message.id}.jpg`
+        const downloadPath = `${downloadBasePath}/download/${filename}`
+        this.lineResponseFactory().downloadContent(this.message.id, downloadPath)
+          .then((downloadPath) => {
+            console.log('downloadPath')
+            CloudStore.upload('staging.tul-fir-101.appspot.com', downloadPath)
+              .then(() => {
+                fs.unlinkSync(downloadPath)
+              })
+          })
         return this.eventResponses.onImage['action'](this.user, this.message, this.session, this.lineResponseFactory(), filename)
       break
     }

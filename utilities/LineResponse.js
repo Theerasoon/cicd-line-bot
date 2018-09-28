@@ -53,14 +53,14 @@ class LineResponse {
     console.log(this.responseData)
   }
 
-  async downloadContent (messageId, dowloadPath) {
-    try {
-      const stream = await this.client.getMessageContent(messageId)
-      const writable = fs.createWriteStream(dowloadPath)
-      stream.pipe(writable)
-    } catch (error) {
-      console.error(error)
-    }
+  downloadContent(messageId, downloadPath) {
+    return this.client.getMessageContent(messageId)
+      .then((stream) => new Promise((resolve, reject) => {
+        const writable = fs.createWriteStream(downloadPath);
+        stream.pipe(writable);
+        stream.on('end', () => resolve(downloadPath));
+        stream.on('error', reject);
+      }));
   }
 
 }
