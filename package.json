@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "@google-cloud/storage": "^2.0.3",
     "@line/bot-sdk": "^6.1.0",
     "app-root-path": "^2.1.0",
     "body-parser": "~1.18.2",

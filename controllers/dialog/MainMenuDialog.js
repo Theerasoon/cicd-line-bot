@@ -113,8 +113,9 @@ class MainMenuDialog extends MasterDialog {
 
     this.onImage(function (user, message, session, lineResponse, image) {
       const nextDialog = null
-      const original = `https://cidc-line-bot.herokuapp.com/${image}`
-      const preivew = `https://cidc-line-bot.herokuapp.com/img/preview?filename=${image}`
+      console.log(image)
+      const original = `https://cidc-line-bot.herokuapp.com/img/i/${image}`
+      const preivew = `https://cidc-line-bot.herokuapp.com/img/i/${image}/preview`
       lineResponse.addImageMessage(original, preivew)
       return { lineResponse, nextDialog }
     })
