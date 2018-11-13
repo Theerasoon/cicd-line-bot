@@ -59,7 +59,7 @@ const self = {
     const result = processDialog.action()
     const responseLog = processDialog.parseResponseMessage(result.lineResponse)
 
-    // Manage Session Data befor save
+    // Manage Session Data before save
     if (result.nextDialog === null) {
       await session.destroy()
     } else {
@@ -70,8 +70,13 @@ const self = {
     database.save(inputLog, connection)
     database.save(responseLog, connection)
 
-    // return { inputLog, responseLog }
-    return result['lineResponse'].replyMessage(event.replyToken)
+    if (result['lineResponse'].responseData.length === 0) {
+      return { inputLog, responseLog }
+    }
+    else {
+      // return { inputLog, responseLog }
+      return result['lineResponse'].replyMessage(event.replyToken)
+    }
   }
 }
 
