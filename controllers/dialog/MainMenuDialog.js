@@ -1,4 +1,5 @@
 var MasterDialog = require('./MasterDialog.js')
+var Quote = require('../helper/Quote.js')
 
 class MainMenuDialog extends MasterDialog {
   constructor(user, message, session) {
@@ -8,19 +9,21 @@ class MainMenuDialog extends MasterDialog {
   }
 
   textProcessing(message) {
-    return message
+    if (message.type !== 'text') return message.text
+    if (!message.text.includes('ตึลตึล')) return message.text
+
+    if (message.text.includes('ขอคำคม')) return 'คำคม'
   }
 
   config() {
     super.config()
-    this.config.useTextProcessing = false
+    this.config.useTextProcessing = true
   }
 
   create() {
 
     this.onTextDefault(function(user, message, session, lineResponse) {
       const nextDialog = null
-      lineResponse.addTextMessage(message.text)
       return { lineResponse, nextDialog }
     })
 
@@ -119,6 +122,14 @@ class MainMenuDialog extends MasterDialog {
       lineResponse.addImageMessage(original, preivew)
       return { lineResponse, nextDialog }
     })
+
+    this.onText('คำคม', function (user, message, session, lineResponse) {
+      const nextDialog = null
+      const randomQuote = Quote.getRandomQuote()
+      lineResponse.addTextMessage(randomQuote)
+      return { lineResponse, nextDialog }
+    })
+
   }
 }
 
