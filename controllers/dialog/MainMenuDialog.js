@@ -1,5 +1,6 @@
 var MasterDialog = require('./MasterDialog.js')
 var Quote = require('../helper/Quote.js')
+var Question = require('../helper/Game4Choice.js')
 
 class MainMenuDialog extends MasterDialog {
   constructor(user, message, session) {
@@ -8,16 +9,18 @@ class MainMenuDialog extends MasterDialog {
     this.create()
   }
 
-  textProcessing(message) {
-    if (message.type !== 'text') return message.text
-    if (!message.text.includes('ตึลตึล')) return message.text
-
-    if (message.text.includes('ขอคำคม')) return 'คำคม'
-  }
-
   config() {
     super.config()
     this.config.useTextProcessing = true
+  }
+
+  textProcessing(message) {
+    // like a firewall rule match and return
+    if (message.type !== 'text') return message.text
+    if (!message.text.includes('ตึลตึล')) return message.text
+    if (message.text.includes('ขอคำคม')) return 'คำคม'
+    if (message.text.includes('ขอเกม')) return 'ขอเกม'
+    if (message.text.includes('ขอตอบ')) return 'ขอตอบ'
   }
 
   create() {
@@ -130,7 +133,92 @@ class MainMenuDialog extends MasterDialog {
       return { lineResponse, nextDialog }
     })
 
+    this.onText('ขอเกม', this.game4choiceQuestionState)
+    this.onText('ขอตอบ', this.game4choiceAnswerState)
   }
+
+  // function
+  game4choiceQuestionState(user, message, session, lineResponse) {
+    const nextDialog = 'MainMenuDialog'
+    const altText = 'เกมตอบคำถาม'
+    let title = 'คำถามโดนใจ by ตึลตึล'
+    let q = null
+    if ('4_choice_game' in session['custom']) {
+      q = session['custom']['4_choice_game']
+      title = 'คุณยังเล่นข้อเก่าไม่จบเลย'
+    } else {
+      q = Question.getRandomQuestion()
+      session['custom']['4_choice_game'] = q
+    }
+
+    const template = {
+      type: 'buttons',
+      title: title,
+      text: q['question'],
+      actions: [
+        { label: q['choice'][0], type: 'message', text: 'ตึลตึลขอตอบ ' + q['choice'][0] },
+        { label: q['choice'][1], type: 'message', text: 'ตึลตึลขอตอบ ' + q['choice'][1] },
+        { label: q['choice'][2], type: 'message', text: 'ตึลตึลขอตอบ ' + q['choice'][2] },
+        { label: q['choice'][3], type: 'message', text: 'ตึลตึลขอตอบ ' + q['choice'][3] },
+      ]
+    }
+    lineResponse.addTemplateMessage(altText, template)
+    return { lineResponse, nextDialog }
+  }
+
+  game4choiceAnswerState(user, message, session, lineResponse) {
+    const nextDialog = 'MainMenuDialog'
+    if ('4_choice_game' in session['custom']) {
+      // valid state
+      const answer = message.text.replace('ตึลตึลขอตอบ','').replace(/\s/g, '')
+      if(answer === session['custom']['4_choice_game']['answer']) {
+        delete session['custom']['4_choice_game']
+        const altText = 'ยินดีด้วย'
+        const template = {
+          type: 'buttons',
+          title: 'เก่งมาคุณตอบถูก',
+          text: 'คุณยังอยากเล่นเกมต่อมั๊ย',
+          actions: [
+            { label: 'อยากเล่น', type: 'message', text: 'ตึลตึลขอเกม'},
+            { label: 'ไม่อยากแล้ว', type: 'message', text: 'พอแค่นี้' },
+          ]
+        }
+        lineResponse.addTemplateMessage(altText, template)
+      } else {
+        const q = session['custom']['4_choice_game']
+        const altText = 'คุณยังตอบไม่ถูก'
+        const template = {
+          type: 'buttons',
+          title: 'ดูเหมือนคุณยังตอบไม่ถูก',
+          text: q['question'],
+          actions: [
+            { label: q['choice'][0], type: 'message', text: 'ตึลตึลขอตอบ ' + q['choice'][0] },
+            { label: q['choice'][1], type: 'message', text: 'ตึลตึลขอตอบ ' + q['choice'][1] },
+            { label: q['choice'][2], type: 'message', text: 'ตึลตึลขอตอบ ' + q['choice'][2] },
+            { label: q['choice'][3], type: 'message', text: 'ตึลตึลขอตอบ ' + q['choice'][3] },
+          ]
+        }
+        lineResponse.addTemplateMessage(altText, template)
+      }
+    }
+    else {
+      // invalid state
+      const altText = 'มาเล่นกัน'
+      const template = {
+        type: 'buttons',
+        title: 'เกมของคุณยังไม่เริ่ม',
+        text: 'ดูเหมือนว่าคุณยังไม่ได้เริ่มเกมนะ จะเริ่มเลยมั๊ยละ',
+        actions: [
+          { label: 'เริ่มเกมเลย', type: 'message', text: 'ตึลตึลขอเกม'},
+          { label: 'ยังก่อน', type: 'message', text: 'ไว้คราวหน้าละกัน' },
+        ]
+      }
+      lineResponse.addTemplateMessage(altText, template)
+    }
+
+    return { lineResponse, nextDialog }
+  }
+
 }
 
 module.exports = MainMenuDialog
