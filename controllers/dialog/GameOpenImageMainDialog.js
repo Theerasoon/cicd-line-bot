@@ -53,7 +53,6 @@ class GameOpenImageMainDialog extends MasterDialog {
         'question_image' : `https://cidc-line-bot.herokuapp.com/img/i/${image}`,
         'answer': []
       }
-      session['custom']['question'] = {}
       lineResponse.addTextMessage('คำตอบของรูปนี้คืออะไรหล่ะ')
       return { lineResponse, nextDialog }
     })
