@@ -21,6 +21,7 @@ class MainMenuDialog extends MasterDialog {
     if (message.text.includes('ขอคำคม')) return 'คำคม'
     if (message.text.includes('ขอเกม')) return 'ขอเกม'
     if (message.text.includes('ขอตอบ')) return 'ขอตอบ'
+    if (message.text.includes('เกมเปิดป้าย')) return 'เกมเปิดป้าย'
   }
 
   create() {
@@ -135,6 +136,21 @@ class MainMenuDialog extends MasterDialog {
 
     this.onText('ขอเกม', this.game4choiceQuestionState)
     this.onText('ขอตอบ', this.game4choiceAnswerState)
+    this.onText('เกมเปิดป้าย', function (user, message, session, lineResponse) {
+      const nextDialog = 'GameOpenImageMainDialog'
+      const altText = 'ขอต้อนรับสู่เกมเปิดป้าย'
+      const template = {
+        type: 'buttons',
+        title: 'เกมเปิดป้าย',
+        text: 'คุณกำลังมองอะไร ?',
+        actions: [
+          { label: 'สร้างเกมใหม่', type: 'message', text: 'สร้างเกมใหม่' },
+          { label: 'เกมของฉัน', type: 'message', text: 'เกมของฉัน' }
+        ]
+      }
+      lineResponse.addTemplateMessage(altText, template)
+      return { lineResponse, nextDialog }
+    })
   }
 
   // function
