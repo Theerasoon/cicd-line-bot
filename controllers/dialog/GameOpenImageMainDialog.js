@@ -14,20 +14,28 @@ class GameOpenImageMainDialog extends MasterDialog {
 
   textProcessing(message) {
     if (message.type !== 'text') return message.text
-    if (!message.text.includes('สร้างเกม')) return 'สร้างเกม'
+    if (message.text.includes('สร้างเกม')) return 'สร้างเกม'
+    if (message.text.includes('ออก')) return 'ออก'
     return message.text
   }
 
   create() {
 
     this.onTextDefault(function(user, message, session, lineResponse) {
-      const nextDialog = null
-      lineResponse.addTextMessage('เย็นไว้')
+      const nextDialog = 'GameOpenImageMainDialog'
       if(session['custom']['state'] == 'answer') {
         session['custom']['question']['answer'].push(message.text)
         let text = JSON.stringify(session['custom']['question'])
         lineResponse.addTextMessage(text)
+      } else {
+        lineResponse.addTextMessage('เย็นไว้')
       }
+      return { lineResponse, nextDialog }
+    })
+
+    this.onText('ออก', function(user, message, session, lineResponse) {
+      const nextDialog = null
+      lineResponse.addTextMessage('ไว้เจอกัน')
       return { lineResponse, nextDialog }
     })
 
