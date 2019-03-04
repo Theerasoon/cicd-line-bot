@@ -45,6 +45,14 @@ class LineResponse {
     })
   }
 
+  addFlexMessage(altText, contents) {
+    this.responseData.push( {
+      type: 'flex',
+      altText,
+      contents
+    })
+  }
+
   replyMessage (token) {
     return this.client.replyMessage(token, this.responseData).catch(err => console.error(err))
   }

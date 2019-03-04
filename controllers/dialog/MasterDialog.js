@@ -51,7 +51,7 @@ class MasterDialog {
   }
 
   /**
-   * A register method uses for handle text message in case of trigger not found in onText() 
+   * A register method uses for handle text message in case of trigger not found in onText()
    * @param {Function} action - a callback function
    */
   onTextDefault(action) {
@@ -112,7 +112,7 @@ class MasterDialog {
       channelAccessToken: process.env.LINE_ACCESS_TOKEN,
       channelSecret: process.env.LINE_SECRET,
     }
-    return new LineResponse(config) 
+    return new LineResponse(config)
   }
 
   parseInputMessage() {

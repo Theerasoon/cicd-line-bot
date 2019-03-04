@@ -118,6 +118,27 @@ class MainMenuDialog extends MasterDialog {
       return { lineResponse, nextDialog }
     })
 
+    this.onText('flex', function (user, message, session, lineResponse) {
+      const nextDialog = 'MainMenuDialog'
+      const altText = 'This is a flex message'
+      const flexMessage = {
+        type: 'bubble',
+        body: {
+          type: 'box',
+          layout: 'horizontal',
+          contents: [{
+            type: 'text',
+            text: 'hello'
+          },{
+            type: 'text',
+            text: 'world'
+          }]
+        }
+      }
+      lineResponse.addFlexMessage(altText, flexMessage)
+      return { lineResponse, nextDialog }
+    })
+
     this.onImage(function (user, message, session, lineResponse, image) {
       const nextDialog = 'MainMenuDialog'
       console.log(image)
