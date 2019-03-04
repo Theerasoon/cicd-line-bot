@@ -21,7 +21,7 @@ class GameOpenImageMainDialog extends MasterDialog {
 
   create() {
 
-    this.onTextDefault(function(user, message, session, lineResponse) {
+    this.onTextDefault((function(user, message, session, lineResponse) {
       const nextDialog = 'GameOpenImageMainDialog'
       if(session['custom']['state'] == 'input-answer') {
         session['custom']['question']['answer'].push(message.text)
@@ -32,7 +32,7 @@ class GameOpenImageMainDialog extends MasterDialog {
         lineResponse.addTextMessage('เย็นไว้')
       }
       return { lineResponse, nextDialog }
-    })
+    }).bind(this))
 
     this.onText('ออก', function(user, message, session, lineResponse) {
       const nextDialog = null
