@@ -23,10 +23,11 @@ class GameOpenImageMainDialog extends MasterDialog {
 
     this.onTextDefault(function(user, message, session, lineResponse) {
       const nextDialog = 'GameOpenImageMainDialog'
-      if(session['custom']['state'] == 'answer') {
+      if(session['custom']['state'] == 'input-answer') {
         session['custom']['question']['answer'].push(message.text)
-        let text = JSON.stringify(session['custom']['question'])
-        lineResponse.addTextMessage(text)
+        const altText = 'เกมของคุณ'
+        const flexMessage = this.buildFlexMessageInputAnswer(session)
+        lineResponse.addTemplateMessage(altText, template)
       } else {
         lineResponse.addTextMessage('เย็นไว้')
       }
@@ -48,7 +49,7 @@ class GameOpenImageMainDialog extends MasterDialog {
 
     this.onImage(function (user, message, session, lineResponse, image) {
       const nextDialog = 'GameOpenImageMainDialog'
-      session['custom']['state'] = 'answer'
+      session['custom']['state'] = 'input-answer'
       session['custom']['question'] = {
         'question_image' : `https://cidc-line-bot.herokuapp.com/img/i/${image}`,
         'answer': []
@@ -56,6 +57,137 @@ class GameOpenImageMainDialog extends MasterDialog {
       lineResponse.addTextMessage('คำตอบของรูปนี้คืออะไรหล่ะ')
       return { lineResponse, nextDialog }
     })
+  }
+
+  buildFlexMessageInputAnswer(session) {
+    const header = {
+      "type": "box",
+      "layout": "horizontal",
+      "contents": [
+        {
+          "type": "text",
+          "text": "List of correct answer",
+          "weight": "bold",
+          "size": "lg"
+        }
+      ]
+    }
+    const hero = {
+      "type": "image",
+      "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
+      "size": "full",
+      "aspectMode": "cover"
+    }
+    const body = {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "หากต้องการเพิ่มคำตอบ\nพิมพ์คำตอบใหม่มาได้เลย",
+          "color": "#444444",
+          "wrap": true,
+          "gravity": "center",
+          "size": "md"
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "margin": "xl",
+          "spacing": "sm",
+          "contents": [
+            {
+              "type": "box",
+              "layout": "baseline",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "- จอนนี้ หวังหยัง",
+                  "wrap": true,
+                  "color": "#888888",
+                  "size": "sm",
+                  "flex": 9
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "baseline",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "- โจนาธาน อาเทอร์",
+                  "wrap": true,
+                  "color": "#888888",
+                  "size": "sm",
+                  "flex": 9
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "baseline",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "- โทน่าจี โทนี้จา",
+                  "wrap": true,
+                  "color": "#888888",
+                  "size": "sm",
+                  "flex": 9
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    const footer = {
+      "type": "box",
+      "layout": "horizontal",
+      "margin": "sm",
+      "spacing": "sm",
+      "contents": [
+        {
+          "type": "button",
+          "style": "link",
+          "height": "sm",
+          "style": "secondary",
+          "action": {
+            "type": "message",
+            "label": "ยกเลิก",
+            "text": "ยกเลิก"
+          }
+        },
+        {
+          "type": "button",
+          "style": "link",
+          "height": "sm",
+          "style": "primary",
+          "action": {
+            "type": "message",
+            "label": "เสร็จสิ้น",
+            "text": "เสร็จสิ้น"
+          }
+        },
+        {
+          "type": "spacer",
+          "size": "sm"
+        }
+      ],
+      "flex": 0
+    }
+    const flexMessage = {
+      "type": "bubble",
+      header,
+      hero,
+      body,
+      footer
+    }
+    return flexMessage
   }
 
 }

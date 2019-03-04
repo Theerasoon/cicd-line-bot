@@ -125,7 +125,7 @@ class MainMenuDialog extends MasterDialog {
         "type": "bubble",
         "hero": {
           "type": "image",
-          "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_3_movie.png",
+          "url": "https://cidc-line-bot.herokuapp.com/img/i/9454153474485.jpg",
           "size": "full",
           "aspectRatio": "20:13",
           "aspectMode": "cover",
