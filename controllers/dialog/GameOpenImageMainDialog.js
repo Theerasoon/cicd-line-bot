@@ -27,7 +27,7 @@ class GameOpenImageMainDialog extends MasterDialog {
         session['custom']['question']['answer'].push(message.text)
         const altText = 'เกมของคุณ'
         const flexMessage = this.buildFlexMessageInputAnswer(session)
-        lineResponse.addTemplateMessage(altText, template)
+        lineResponse.addTemplateMessage(altText, flexMessage)
       } else {
         lineResponse.addTextMessage('เย็นไว้')
       }
