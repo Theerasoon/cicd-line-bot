@@ -81,21 +81,22 @@ class GameOpenImageMainDialog extends MasterDialog {
 
     let answers = []
     for (answer of session['custom']['question']['answers']) {
-      answers.push({
-        "type": "box",
-        "layout": "baseline",
-        "spacing": "sm",
-        "contents": [
-          {
-            "type": "text",
-            "text": `- ${answer}`,
-            "wrap": true,
-            "color": "#888888",
-            "size": "sm",
-            "flex": 9
-          }
-        ]
-      })
+      console.log("abcde" + answer)
+      // answers.push({
+      //   "type": "box",
+      //   "layout": "baseline",
+      //   "spacing": "sm",
+      //   "contents": [
+      //     {
+      //       "type": "text",
+      //       "text": `- ${answer}`,
+      //       "wrap": true,
+      //       "color": "#888888",
+      //       "size": "sm",
+      //       "flex": 9
+      //     }
+      //   ]
+      // })
     }
 
     const body = {
