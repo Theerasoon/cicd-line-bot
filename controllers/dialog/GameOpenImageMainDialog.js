@@ -25,7 +25,6 @@ class GameOpenImageMainDialog extends MasterDialog {
       const nextDialog = 'GameOpenImageMainDialog'
       if(session['custom']['state'] === 'input-answer') {
         session['custom']['question']['answers'].push(message.text)
-        console.log(session['custom']['question']['answers'])
         const altText = 'เกมของคุณ'
         const flexMessage = this.buildFlexMessageInputAnswer(session)
         lineResponse.addFlexMessage(altText, flexMessage)
@@ -81,7 +80,7 @@ class GameOpenImageMainDialog extends MasterDialog {
     }
 
     let answers = []
-    for (answer of session['custom']['question']['answer']) {
+    for (answer of session['custom']['question']['answers']) {
       answers.push({
         "type": "box",
         "layout": "baseline",
