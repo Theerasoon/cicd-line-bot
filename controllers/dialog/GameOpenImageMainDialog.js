@@ -24,8 +24,8 @@ class GameOpenImageMainDialog extends MasterDialog {
     this.onTextDefault((function(user, message, session, lineResponse) {
       const nextDialog = 'GameOpenImageMainDialog'
       if(session['custom']['state'] === 'input-answer') {
-        console.log("A", message)
-        session['custom']['question']['answers'].push(message)
+        console.log("A", message.text)
+        session['custom']['question']['answers'].push(message.text)
         console.log("B", session['custom']['question']['answers'])
         const altText = 'เกมของคุณ'
         const flexMessage = this.buildFlexMessageInputAnswer(session)
@@ -62,6 +62,8 @@ class GameOpenImageMainDialog extends MasterDialog {
   }
 
   buildFlexMessageInputAnswer(session) {
+    console.log("C", session['custom']['question']['answers'])
+    
     const header = {
       "type": "box",
       "layout": "horizontal",
