@@ -51,7 +51,7 @@ class GameOpenImageMainDialog extends MasterDialog {
       const nextDialog = 'GameOpenImageMainDialog'
       session['custom']['state'] = 'input-answer'
       session['custom']['question'] = {
-        'question_image' : `https://cidc-line-bot.herokuapp.com/img/i/${image}`,
+        'image' : `https://cidc-line-bot.herokuapp.com/img/i/${image}`,
         'answer': []
       }
       lineResponse.addTextMessage('คำตอบของรูปนี้คืออะไรหล่ะ')
@@ -74,10 +74,30 @@ class GameOpenImageMainDialog extends MasterDialog {
     }
     const hero = {
       "type": "image",
-      "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
+      "url": session['custom']['question']['image'],
       "size": "full",
       "aspectMode": "cover"
     }
+
+    let answers = []
+    for (answer in session['custom']['question']['answer']) {
+      answers.push({
+        "type": "box",
+        "layout": "baseline",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "text",
+            "text": `- ${answer}`,
+            "wrap": true,
+            "color": "#888888",
+            "size": "sm",
+            "flex": 9
+          }
+        ]
+      })
+    }
+
     const body = {
       "type": "box",
       "layout": "vertical",
@@ -95,56 +115,11 @@ class GameOpenImageMainDialog extends MasterDialog {
           "layout": "vertical",
           "margin": "xl",
           "spacing": "sm",
-          "contents": [
-            {
-              "type": "box",
-              "layout": "baseline",
-              "spacing": "sm",
-              "contents": [
-                {
-                  "type": "text",
-                  "text": "- จอนนี้ หวังหยัง",
-                  "wrap": true,
-                  "color": "#888888",
-                  "size": "sm",
-                  "flex": 9
-                }
-              ]
-            },
-            {
-              "type": "box",
-              "layout": "baseline",
-              "spacing": "sm",
-              "contents": [
-                {
-                  "type": "text",
-                  "text": "- โจนาธาน อาเทอร์",
-                  "wrap": true,
-                  "color": "#888888",
-                  "size": "sm",
-                  "flex": 9
-                }
-              ]
-            },
-            {
-              "type": "box",
-              "layout": "baseline",
-              "spacing": "sm",
-              "contents": [
-                {
-                  "type": "text",
-                  "text": "- โทน่าจี โทนี้จา",
-                  "wrap": true,
-                  "color": "#888888",
-                  "size": "sm",
-                  "flex": 9
-                }
-              ]
-            }
-          ]
+          "contents": answers
         }
       ]
     }
+
     const footer = {
       "type": "box",
       "layout": "horizontal",
