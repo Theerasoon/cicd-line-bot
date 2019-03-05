@@ -24,9 +24,7 @@ class GameOpenImageMainDialog extends MasterDialog {
     this.onTextDefault((function(user, message, session, lineResponse) {
       const nextDialog = 'GameOpenImageMainDialog'
       if(session['custom']['state'] === 'input-answer') {
-        console.log("A", message.text)
         session['custom']['question']['answers'].push(message.text)
-        console.log("B", session['custom']['question']['answers'])
         const altText = 'เกมของคุณ'
         const flexMessage = this.buildFlexMessageInputAnswer(session)
         lineResponse.addFlexMessage(altText, flexMessage)
@@ -62,8 +60,6 @@ class GameOpenImageMainDialog extends MasterDialog {
   }
 
   buildFlexMessageInputAnswer(session) {
-    console.log("C", session['custom']['question']['answers'])
-    
     const header = {
       "type": "box",
       "layout": "horizontal",
@@ -84,23 +80,22 @@ class GameOpenImageMainDialog extends MasterDialog {
     }
 
     let answers = []
-    for (answer of session['custom']['question']['answers']) {
-      console.log("abcde", answer)
-      // answers.push({
-      //   "type": "box",
-      //   "layout": "baseline",
-      //   "spacing": "sm",
-      //   "contents": [
-      //     {
-      //       "type": "text",
-      //       "text": `- ${answer}`,
-      //       "wrap": true,
-      //       "color": "#888888",
-      //       "size": "sm",
-      //       "flex": 9
-      //     }
-      //   ]
-      // })
+    for (let answer of session['custom']['question']['answers']) {
+      answers.push({
+        "type": "box",
+        "layout": "baseline",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "text",
+            "text": `- ${answer}`,
+            "wrap": true,
+            "color": "#888888",
+            "size": "sm",
+            "flex": 9
+          }
+        ]
+      })
     }
 
     const body = {
