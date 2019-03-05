@@ -23,8 +23,9 @@ class GameOpenImageMainDialog extends MasterDialog {
 
     this.onTextDefault((function(user, message, session, lineResponse) {
       const nextDialog = 'GameOpenImageMainDialog'
-      if(session['custom']['state'] == 'input-answer') {
-        session['custom']['question']['answer'].push(message.text)
+      if(session['custom']['state'] === 'input-answer') {
+        session['custom']['question']['answers'].push(message.text)
+        console.log(session['custom']['question']['answers'])
         const altText = 'เกมของคุณ'
         const flexMessage = this.buildFlexMessageInputAnswer(session)
         lineResponse.addFlexMessage(altText, flexMessage)
@@ -51,8 +52,8 @@ class GameOpenImageMainDialog extends MasterDialog {
       const nextDialog = 'GameOpenImageMainDialog'
       session['custom']['state'] = 'input-answer'
       session['custom']['question'] = {
-        'image' : `https://cidc-line-bot.herokuapp.com/img/i/${image}`,
-        'answer': []
+        'image'   : `https://cidc-line-bot.herokuapp.com/img/i/${image}`,
+        'answers' : []
       }
       lineResponse.addTextMessage('คำตอบของรูปนี้คืออะไรหล่ะ')
       return { lineResponse, nextDialog }
@@ -80,7 +81,7 @@ class GameOpenImageMainDialog extends MasterDialog {
     }
 
     let answers = []
-    for (answer in session['custom']['question']['answer']) {
+    for (answer of session['custom']['question']['answer']) {
       answers.push({
         "type": "box",
         "layout": "baseline",
