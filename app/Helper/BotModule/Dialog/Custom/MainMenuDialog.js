@@ -6,14 +6,10 @@ class MainMenuDialog extends MasterDailog {
     constructor (user, message, session) {
         super(user, message, session)
         this.create()
-        this.xxx = "XXX"
     }
 
     create () {
-        this.onText("aaa", async () => {
-            console.log(this.user)
-            console.log(this.message)
-            console.log(this.session)
+        this.onText('math', async () => {
             return "onText A"
         })
 

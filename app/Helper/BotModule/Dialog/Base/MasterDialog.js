@@ -12,7 +12,6 @@ class MasterDialog {
     }
 
     onText (trigger, callback) {
-        console.log("On text : " + trigger)
         this.event.onText[trigger] = callback
     }
 
@@ -22,7 +21,7 @@ class MasterDialog {
 
     action () {
         switch(this.message.type) {
-            case 'text' : 
+            case 'text' :
                 let trigger = this.message.text
                 let textEvent = this.event.onText[trigger]
                 if (textEvent !== undefined) {
