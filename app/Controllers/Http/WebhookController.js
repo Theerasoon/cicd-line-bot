@@ -1,4 +1,6 @@
 'use strict'
+const _ = require('lodash')
+
 const LineHook = use('App/models/LineHook')
 const Session = use('App/models/Session')
 const MainMenuDialog = use('App/Helper/BotModule/Dialog/Custom/MainMenuDialog')
@@ -11,27 +13,40 @@ class WebhookController {
         const events = request.all()['events']
         const user = events[0]['source']
         const message = events[0]['message']
+        const session_model = await Session.where({'session_id': user['userId']}).first()
+        const session_data = session_model === null ? {} : session_model.toJSON()
 
-        let session_model = await Session.where({'id': user['userId']}).first()
-        let session = {}
-        if(session_model === null) {
-          session_model = await Session.create({
-            id: user['userId'],
-            data: {}
-          })
-        } else {
-          session = session_model.toJSON()['data']
+        let dialog = null
+        if (session_data.next_dialog) {
+          const DialogClass = use(`App/Helper/BotModule/Dialog/Custom/${session_data.next_dialog}`)
+          dialog = new DialogClass(user, message, session_data)
+        }
+        else {
+          dialog = new MainMenuDialog(user, message, session_data)
+        }
+        await dialog.action()
+
+        if (dialog.next_dialog !== null) {
+          if (session_data._id === undefined) {
+            Session.create({
+              session_id: user['userId'],
+              data: session_data,
+              next_dialog: dialog.next_dialog
+            })
+          }
+          else {
+            session_model.data = session_data
+            session_model.next_dialog = dialog.next_dialog
+            session_model.save()
+          }
+        }
+        else {
+          if (session_data._id !== undefined) {
+            session_model.delete()
+          }
         }
 
-        const md = new MainMenuDialog(user, message, session)
-        const r = await md.action()
-
-        session_model.id = user['userId']
-        session_model.data = session
-        session_model.save()
-
-        response.send('OK')
-
+        response.send(dialog.response)
     }
 }
 

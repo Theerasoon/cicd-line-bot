@@ -1,10 +1,13 @@
 'use strict'
 
+
 class MasterDialog {
     constructor (user, message, session) {
         this.user = user
         this.message = message
         this.session = session
+        this.next_dialog = null
+        this.response = []
         this.event = {
             onText: {},
             onTextDefault : {}

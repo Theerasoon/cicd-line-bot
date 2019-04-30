@@ -10,7 +10,11 @@ class MainMenuDialog extends MasterDailog {
 
     create () {
         this.onText('math', async () => {
-            return "onText A"
+            this.next_dialog = 'MathDialog'
+            this.response.push({
+              type: 'text',
+              text: 'สวัสดีนี้คือ math dialog คุณสามารถพิมพ์สมการมาได้เลยเดียวจะคิดเลขให้'
+            })
         })
 
         this.onTextDefault(async () => {
