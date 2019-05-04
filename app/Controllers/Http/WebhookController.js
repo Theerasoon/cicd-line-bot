@@ -9,6 +9,7 @@ class WebhookController {
     async line({ request, response }) {
         // const linehook = await LineHook.create(request.all())
         // response.send(linehook.toJSON())
+        console.dir(request.all(), {depth: null})
 
         const events = request.all()['events']
         const user = events[0]['source']

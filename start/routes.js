@@ -19,3 +19,5 @@ const Route = use('Route')
 Route.on('/').render('welcome')
 Route.post('/bot/webhook', 'WebhookController.line')
 Route.get('/bot/webhook', 'WebhookController.line')
+
+Route.post('/webhook/line', 'WebhookController.line')

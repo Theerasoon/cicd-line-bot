@@ -5,7 +5,12 @@ const MasterDailog = use('App/Helper/BotModule/Dialog/Base/MasterDialog')
 class MainMenuDialog extends MasterDailog {
     constructor (user, message, session) {
         super(user, message, session)
+        this.enable_nlu = true
         this.create()
+    }
+
+    nlu () {
+      return 'hello'
     }
 
     create () {
@@ -19,6 +24,13 @@ class MainMenuDialog extends MasterDailog {
 
         this.onTextDefault(async () => {
             return "onDefault"
+        })
+
+        this.onImage(async () => {
+          this.response.push({
+            type: 'text',
+            text: 'process image'
+          })
         })
     }
 
