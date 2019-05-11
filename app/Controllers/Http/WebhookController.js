@@ -14,7 +14,6 @@ class WebhookController {
         const session = {"k":"v"}
         const md = new MainMenuDialog(user, message, session)
         const r = await md.action()
-        console.log(r)
         response.send("OIK")
 
 

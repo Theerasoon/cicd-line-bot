@@ -23,7 +23,7 @@ class MasterDialog {
     action () {
         switch(this.message.type) {
             case 'text' : 
-                let trigger = this.message.text
+                let trigger = this.use_nlu ? this.nlu() : this.message.text 
                 let textEvent = this.event.onText[trigger]
                 if (textEvent !== undefined) {
                     return this.event.onText[trigger]()
