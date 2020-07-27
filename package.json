@@ -15,7 +15,7 @@
     "ejs": "~2.5.7",
     "express": "^4.16.3",
     "jimp": "^0.3.5",
-    "jpeg-js": "^0.3.4",
+    "jpeg-js": "^0.4.0",
     "moment": "^2.22.2",
     "mongodb-stitch": "^3.1.7",
     "morgan": "~1.9.0",
